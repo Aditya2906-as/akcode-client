@@ -13,13 +13,18 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          editor: ['@monaco-editor/react'],
-          motion: ['framer-motion']
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              return 'react-vendor'
+            }
+            if (id.includes('framer-motion')) return 'framer'
+            if (id.includes('monaco-editor') || id.includes('@monaco-editor')) return 'monaco'
+            if (id.includes('lucide-react')) return 'icons'
+            return 'vendor'
+          }
         }
       }
     }
