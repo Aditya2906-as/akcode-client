@@ -10,5 +10,18 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          editor: ['@monaco-editor/react'],
+          motion: ['framer-motion']
+        }
+      }
+    }
   }
 })
