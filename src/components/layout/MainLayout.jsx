@@ -148,6 +148,12 @@ export default function MainLayout() {
           <NavLink to="/settings" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
             <Settings size={18} /> <span>Settings</span>
           </NavLink>
+          <NavLink to="/About" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
+            <Settings size={18} /> <span>About</span>
+          </NavLink>
+          <NavLink to="/UserManual" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
+            <Settings size={18} /> <span>Manual</span>
+          </NavLink>
           <button onClick={handleLogout} className="nav-link w-full text-left text-red-400 hover:text-red-300 hover:bg-red-500/10">
             <LogOut size={18} /> <span>Logout</span>
           </button>

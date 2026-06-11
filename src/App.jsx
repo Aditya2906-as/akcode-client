@@ -29,6 +29,8 @@ import AiTutor        from './pages/ai/AiTutor'
 import QuizPage       from './pages/quiz/QuizPage'
 import Settings       from './pages/profile/Settings'
 import BadgeShowcase  from './pages/profile/BadgeShowcase'
+import About          from './pages/About'
+import UserManual     from './pages/UserManual'
 import NotFound       from './pages/NotFound'
 
 // ── Full-screen loader shown while verifying token ────────────────────────────
@@ -126,6 +128,8 @@ export default function App() {
           <Route path="ai-tutor"           element={<AiTutor />} />
           <Route path="quiz/:id"           element={<QuizPage />} />
           <Route path="settings"           element={<Settings />} />
+          <Route path="About"              element={<About />} />
+          <Route path="UserManual"         element={<UserManual />} />
         </Route>
 
         {/* ── 404 ── */}
