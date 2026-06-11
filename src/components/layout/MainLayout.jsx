@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, BookOpen, Swords, Trophy, User,
   Code2, MessageSquare, Bot, Menu, X, LogOut,
-  Flame, Star, Heart, Coins, ChevronRight, Settings, Award, Info, BookOpen
+  Flame, Star, Heart, Coins, ChevronRight, Settings, Award, Info
 } from 'lucide-react'
 import useAuthStore from '../../context/authStore'
 import { xpProgress, levelTitle } from '../../utils/helpers'
