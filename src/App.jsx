@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import useAuthStore from './context/authStore'
 
@@ -72,7 +72,7 @@ export default function App() {
   useEffect(() => { fetchMe() }, [])
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -127,6 +127,6 @@ export default function App() {
         {/* ── 404 ── */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
