@@ -4,14 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, BookOpen, Swords, Trophy, User,
   Code2, MessageSquare, Bot, Menu, X, LogOut,
-  Flame, Star, Heart, Coins, ChevronRight, Settings, Award
+  Flame, Star, Heart, Coins, ChevronRight, Settings, Award, Info, BookOpen
 } from 'lucide-react'
 import useAuthStore from '../../context/authStore'
 import { xpProgress, levelTitle } from '../../utils/helpers'
 import Avatar from '../ui/Avatar'
 import BadgeNotification from '../ui/BadgeNotification'
 import toast from 'react-hot-toast'
-import About from '../../pages/info/About'
 
 const navItems = [
   { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard'   },
@@ -150,10 +149,10 @@ export default function MainLayout() {
             <Settings size={18} /> <span>Settings</span>
           </NavLink>
           <NavLink to="/About" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
-            <About size={18} /> <span>About</span>
+            <Info size={18} /> <span>About</span>
           </NavLink>
           <NavLink to="/UserManual" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
-            <UserManual size={18} /> <span>Manual</span>
+            <BookOpen size={18} /> <span>Manual</span>
           </NavLink>
           <button onClick={handleLogout} className="nav-link w-full text-left text-red-400 hover:text-red-300 hover:bg-red-500/10">
             <LogOut size={18} /> <span>Logout</span>
