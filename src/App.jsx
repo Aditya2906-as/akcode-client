@@ -29,8 +29,8 @@ import AiTutor        from './pages/ai/AiTutor'
 import QuizPage       from './pages/quiz/QuizPage'
 import Settings       from './pages/profile/Settings'
 import BadgeShowcase  from './pages/profile/BadgeShowcase'
-import About          from './pages/About'
-import UserManual     from './pages/UserManual'
+import About          from './pages/info/About'
+import UserManual     from './pages/info/UserManua'
 import NotFound       from './pages/NotFound'
 
 // ── Full-screen loader shown while verifying token ────────────────────────────
