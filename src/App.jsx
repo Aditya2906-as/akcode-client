@@ -4,8 +4,8 @@ import { Toaster } from 'react-hot-toast'
 import useAuthStore from './context/authStore'
 
 // Layout
-import MainLayout from './components/layout/MainLayout'
-import AuthLayout from './components/layout/AuthLayout'
+import MainLayout     from './components/layout/MainLayout'
+import AuthLayout     from './components/layout/AuthLayout'
 
 // Pages
 import Landing        from './pages/Landing'
@@ -31,7 +31,7 @@ import Settings       from './pages/profile/Settings'
 import BadgeShowcase  from './pages/profile/BadgeShowcase'
 import NotFound       from './pages/NotFound'
 
-// ── Full-screen loader ────────────────────────────────────────────────────────
+// ── Full-screen loader shown while verifying token ────────────────────────────
 const PageLoader = () => (
   <div className="min-h-screen bg-dark-950 flex items-center justify-center">
     <div className="flex flex-col items-center gap-4">
@@ -44,12 +44,14 @@ const PageLoader = () => (
                style={{ animationDelay: `${i * 0.15}s` }} />
         ))}
       </div>
+      <p className="text-slate-500 text-xs">Loading your profile...</p>
     </div>
   </div>
 )
 
-// ── Route guards ──────────────────────────────────────────────────────────────
-// Shows loader while auth is being checked, then redirects if needed
+// ── Protected: only logged-in users ──────────────────────────────────────────
+// Shows loader while auth check is in progress (handles Render cold starts)
+// Only redirects to login AFTER loading is complete AND user is confirmed null
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuthStore()
   if (loading) return <PageLoader />
@@ -57,8 +59,7 @@ const ProtectedRoute = ({ children }) => {
   return children
 }
 
-// Only redirects to dashboard AFTER auth check is complete and user IS logged in
-// While loading → show loader (prevents flash redirect to dashboard)
+// ── Public only: logged-in users go to dashboard ─────────────────────────────
 const PublicOnlyRoute = ({ children }) => {
   const { user, loading } = useAuthStore()
   if (loading) return <PageLoader />
@@ -69,7 +70,12 @@ const PublicOnlyRoute = ({ children }) => {
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   const fetchMe = useAuthStore(s => s.fetchMe)
-  useEffect(() => { fetchMe() }, [])
+
+  useEffect(() => {
+    // Verify the stored token on every app load
+    // authStore already sets loading=true if token exists, =false if no token
+    fetchMe()
+  }, [])
 
   return (
     <HashRouter>
@@ -84,44 +90,42 @@ export default function App() {
           },
           success: { iconTheme: { primary: '#0de066', secondary: '#060a0f' } },
           error:   { iconTheme: { primary: '#ef4444', secondary: '#060a0f' } },
-          duration: 3000,
+          duration: 3500,
         }}
       />
 
       <Routes>
-        {/* ── Public landing ── */}
+        {/* ── Landing ── */}
         <Route path="/" element={<Landing />} />
 
-        {/* ── Auth pages ── */}
+        {/* ── Auth layout wrapper ── */}
         <Route path="/auth" element={<AuthLayout />}>
-          {/* Login & Register only accessible when NOT logged in */}
-          <Route path="login"    element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
-          <Route path="register" element={<PublicOnlyRoute><Register /></PublicOnlyRoute>} />
-
-          {/* Password reset — accessible always (even if logged in, edge case) */}
+          <Route path="login"           element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
+          <Route path="register"        element={<PublicOnlyRoute><Register /></PublicOnlyRoute>} />
+          {/* Password reset pages: always accessible */}
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="verify-otp"      element={<VerifyOTP />} />
           <Route path="reset-password"  element={<ResetPassword />} />
         </Route>
 
-        {/* ── Protected app pages ── */}
+        {/* ── App pages (require login) ── */}
         <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
-          <Route path="dashboard"         element={<Dashboard />} />
-          <Route path="courses"           element={<Courses />} />
-          <Route path="courses/:slug"     element={<CourseDetail />} />
-          <Route path="lessons/:id"       element={<LessonView />} />
-          <Route path="challenges"        element={<Challenges />} />
-          <Route path="challenges/:slug"  element={<ChallengeView />} />
-          <Route path="leaderboard"       element={<Leaderboard />} />
-          <Route path="profile"           element={<Profile />} />
-          <Route path="profile/:username" element={<Profile />} />
-          <Route path="badges"            element={<BadgeShowcase />} />
-          <Route path="snippets"          element={<Snippets />} />
-          <Route path="forum"             element={<Forum />} />
-          <Route path="forum/:id"         element={<ForumPost />} />
-          <Route path="ai-tutor"          element={<AiTutor />} />
-          <Route path="quiz/:id"          element={<QuizPage />} />
-          <Route path="settings"          element={<Settings />} />
+          <Route path="dashboard"          element={<Dashboard />} />
+          <Route path="courses"            element={<Courses />} />
+          <Route path="courses/:slug"      element={<CourseDetail />} />
+          <Route path="lessons/:id"        element={<LessonView />} />
+          <Route path="challenges"         element={<Challenges />} />
+          <Route path="challenges/:slug"   element={<ChallengeView />} />
+          <Route path="leaderboard"        element={<Leaderboard />} />
+          <Route path="profile"            element={<Profile />} />
+          <Route path="profile/:username"  element={<Profile />} />
+          <Route path="badges"             element={<BadgeShowcase />} />
+          <Route path="snippets"           element={<Snippets />} />
+          <Route path="forum"              element={<Forum />} />
+          <Route path="forum/:id"          element={<ForumPost />} />
+          <Route path="ai-tutor"           element={<AiTutor />} />
+          <Route path="quiz/:id"           element={<QuizPage />} />
+          <Route path="settings"           element={<Settings />} />
         </Route>
 
         {/* ── 404 ── */}

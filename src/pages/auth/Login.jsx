@@ -1,16 +1,15 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react'
 import useAuthStore from '../../context/authStore'
 import toast from 'react-hot-toast'
 
 export default function Login() {
-  const [form, setForm] = useState({ email: '', password: '' })
-  const [show, setShow] = useState(false)
+  const [form, setForm]       = useState({ email: '', password: '' })
+  const [show, setShow]       = useState(false)
   const [loading, setLoading] = useState(false)
-  const { login } = useAuthStore()
-  const navigate = useNavigate()
+  const { login }             = useAuthStore()
+  const navigate              = useNavigate()
 
   const handle = async (e) => {
     e.preventDefault()
@@ -18,11 +17,13 @@ export default function Login() {
     try {
       const data = await login(form.email, form.password)
       toast.success(data.message || 'Welcome back!')
-      navigate('/dashboard')
+      // Small timeout ensures zustand state update propagates before navigate
+      setTimeout(() => navigate('/dashboard', { replace: true }), 50)
     } catch (err) {
-      const msg = err.response?.data?.error || err.response?.data?.errors?.[0]?.msg || 'Login failed'
+      const msg = err.response?.data?.error
+        || err.response?.data?.errors?.[0]?.msg
+        || 'Invalid email or password'
       toast.error(msg)
-    } finally {
       setLoading(false)
     }
   }
@@ -46,6 +47,7 @@ export default function Login() {
               onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
               className="input pl-10"
               required
+              autoFocus
             />
           </div>
         </div>
@@ -53,10 +55,8 @@ export default function Login() {
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="block text-sm font-medium text-slate-300">Password</label>
-            <Link
-              to="/auth/forgot-password"
-              className="text-xs text-brand-400 hover:text-brand-300 transition-colors font-medium"
-            >
+            <Link to="/auth/forgot-password"
+              className="text-xs text-brand-400 hover:text-brand-300 font-medium transition-colors">
               Forgot password?
             </Link>
           </div>
@@ -78,24 +78,14 @@ export default function Login() {
         </div>
 
         <button type="submit" disabled={loading} className="btn-primary w-full justify-center py-3 mt-2">
-          {loading ? (
-            <div className="w-5 h-5 border-2 border-dark-950/30 border-t-dark-950 rounded-full animate-spin" />
-          ) : (
-            <><LogIn size={18} /> Sign In</>
-          )}
+          {loading
+            ? <div className="w-5 h-5 border-2 border-dark-950/30 border-t-dark-950 rounded-full animate-spin" />
+            : <><LogIn size={18} /> Sign In</>
+          }
         </button>
       </form>
 
-      <div className="mt-5 p-3.5 rounded-xl bg-dark-800 border border-dark-600">
-        <p className="text-xs text-slate-400 text-center">
-          🔐 Forgot your password?{' '}
-          <Link to="/auth/forgot-password" className="text-brand-400 hover:text-brand-300 font-medium">
-            Reset it here →
-          </Link>
-        </p>
-      </div>
-
-      <p className="text-center text-sm text-slate-500 mt-5">
+      <p className="text-center text-sm text-slate-500 mt-6">
         Don't have an account?{' '}
         <Link to="/auth/register" className="text-brand-400 hover:text-brand-300 font-medium">
           Create one free →

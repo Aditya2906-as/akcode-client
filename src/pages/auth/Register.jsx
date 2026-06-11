@@ -28,7 +28,7 @@ export default function Register() {
     try {
       await register(form.username, form.email, form.password, form.preferredLanguage)
       toast.success('Account created! Welcome to AK.code 🎉')
-      navigate('/dashboard')
+      setTimeout(() => navigate('/dashboard', { replace: true }), 50)
     } catch (err) {
       const errors = err.response?.data?.errors
       const msg = errors?.[0]?.msg || err.response?.data?.error || 'Registration failed'
