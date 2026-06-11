@@ -13,6 +13,6 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false
+    copyPublicDir: true,   // explicitly copy public/ into dist/
   }
 })
