@@ -11,6 +11,7 @@ import { xpProgress, levelTitle } from '../../utils/helpers'
 import Avatar from '../ui/Avatar'
 import BadgeNotification from '../ui/BadgeNotification'
 import toast from 'react-hot-toast'
+import About from '../../pages/info/About'
 
 const navItems = [
   { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard'   },
@@ -149,10 +150,10 @@ export default function MainLayout() {
             <Settings size={18} /> <span>Settings</span>
           </NavLink>
           <NavLink to="/About" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
-            <Settings size={18} /> <span>About</span>
+            <About size={18} /> <span>About</span>
           </NavLink>
           <NavLink to="/UserManual" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
-            <Settings size={18} /> <span>Manual</span>
+            <UserManual size={18} /> <span>Manual</span>
           </NavLink>
           <button onClick={handleLogout} className="nav-link w-full text-left text-red-400 hover:text-red-300 hover:bg-red-500/10">
             <LogOut size={18} /> <span>Logout</span>
