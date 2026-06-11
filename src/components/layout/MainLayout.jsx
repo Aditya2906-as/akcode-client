@@ -4,8 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, BookOpen, Swords, Trophy, User,
   Code2, MessageSquare, Bot, Menu, X, LogOut,
-  Flame, Star, Heart, Coins, ChevronRight, Settings, Award,
-  BookMarked, Info
+  Flame, Star, Heart, Coins, ChevronRight, Settings, Award
 } from 'lucide-react'
 import useAuthStore from '../../context/authStore'
 import { xpProgress, levelTitle } from '../../utils/helpers'
@@ -34,7 +33,7 @@ export default function MainLayout() {
 
   const handleLogout = async () => {
     await logout()
-    navigate('/')
+    navigate('/auth/login', { replace: true })
     toast.success('Logged out successfully')
   }
 
@@ -148,12 +147,6 @@ export default function MainLayout() {
           </NavLink>
           <NavLink to="/settings" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
             <Settings size={18} /> <span>Settings</span>
-          </NavLink>
-          <NavLink to="/user-manual" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
-            <BookMarked size={18} /> <span>User Manual</span>
-          </NavLink>
-          <NavLink to="/about" className={({ isActive }) => isActive ? 'nav-link-active' : 'nav-link'}>
-            <Info size={18} /> <span>About</span>
           </NavLink>
           <button onClick={handleLogout} className="nav-link w-full text-left text-red-400 hover:text-red-300 hover:bg-red-500/10">
             <LogOut size={18} /> <span>Logout</span>
